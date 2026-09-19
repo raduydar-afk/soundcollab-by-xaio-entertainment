@@ -22,7 +22,7 @@ python3 -m http.server 8000
 # відкрити http://localhost:8000
 ```
 
-Вхідна сторінка — `index.html`, стилі — `styles.css`, інтерактивність — `script.js`. Для demo-запитів форми валідовують базові поля й відкривають `mailto:hello@soundcollab.space`; сервер або секрети не потрібні. Замініть email і телефон у HTML/`script.js` на підтверджені перед публічним запуском.
+Вхідна сторінка — `index.html`, стилі — `styles.css`, інтерактивність — `script.js`. Для demo-запитів форми валідовують базові поля й відкривають `mailto:sound.collab.official@gmail.com`; сервер або секрети не потрібні. Телефон у HTML залишається demo placeholder до підтвердження.
 
 ## Що є в демо
 
