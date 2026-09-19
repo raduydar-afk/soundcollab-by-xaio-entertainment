@@ -73,7 +73,7 @@ function setRegistrationRole(role) {
   formTitle.textContent = specialist ? "Подати профіль спеціаліста" : "Створити акаунт клієнта";
   submitButton.innerHTML = specialist ? "Подати профіль на перевірку <span>→</span>" : "Створити акаунт клієнта <span>→</span>";
   roleButtons.forEach((button) => button.classList.toggle("role-button-active", button.dataset.role === role));
-  [...clientFields.querySelectorAll("input, select, textarea"), ...specialistFields.querySelectorAll("input, select, textarea")].forEach((field) => { field.required = field.closest("[hidden]") === null && field.name !== "portfolio" && field.name !== "location" && field.name !== "experience"; });
+  [...clientFields.querySelectorAll("input, select, textarea"), ...specialistFields.querySelectorAll("input, select, textarea")].forEach((field) => { field.required = field.closest("[hidden]") === null && ["service", "specialty", "custom_service", "custom_specialty", "genres", "portfolio"].includes(field.name) === false; });
 }
 roleButtons.forEach((button) => button.addEventListener("click", () => setRegistrationRole(button.dataset.role)));
 const initialRole = new URLSearchParams(window.location.search).get("role");
