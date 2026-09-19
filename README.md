@@ -1,4 +1,4 @@
-# SoundCollab / Xiao Entertainment
+# SoundCollab
 
 Україномовний first-working GitHub Pages концепт платформи для музичної індустрії та суміжних event-професіоналів. Сайт показує напрямок продукту, ролі клієнта й спеціаліста, пошук/запит, маркетплейс, order workspace, журнал, Академію та модель монетизації.
 
@@ -6,7 +6,7 @@
 
 - `index.html` — головна та швидкий запит.
 - `services.html` — каталог: songwriting, mixing, mastering, production, studio booking, equipment consulting.
-- `about.html` — Xiao Entertainment / SoundCollab, підхід і Studio/Journal/Academy.
+- `about.html` — про SoundCollab, підхід і Studio/Journal/Academy.
 - `portfolio.html` — demo-приклади робіт без непідтверджених сторонніх медіа.
 - `client.html` — UI-концепт кабінету замовника: orders, status, payment state, workspace, files.
 - `specialist.html` — UI-концепт кабінету виконавця: assigned orders, status update, payout terms.
