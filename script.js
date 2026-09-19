@@ -54,3 +54,36 @@ document.querySelector("[data-demo-action='status']")?.addEventListener("click",
   const message = document.querySelector("#demo-message");
   message.textContent = "Демо: статус оновлено локально. У production це збереже зміни в order workspace.";
 });
+const roleButtons = document.querySelectorAll("[data-role]");
+const roleInput = document.querySelector("#role-input");
+const clientFields = document.querySelector("#client-fields");
+const specialistFields = document.querySelector("#specialist-fields");
+const formEyebrow = document.querySelector("#form-eyebrow");
+const formTitle = document.querySelector("#form-title");
+const submitButton = document.querySelector("#registration-submit");
+const registrationForm = document.querySelector("#registration-form");
+const registrationMessage = document.querySelector("#registration-message");
+
+function setRegistrationRole(role) {
+  const specialist = role === "specialist";
+  roleInput.value = role;
+  clientFields.hidden = specialist;
+  specialistFields.hidden = !specialist;
+  formEyebrow.textContent = specialist ? "Реєстрація виконавця" : "Реєстрація клієнта";
+  formTitle.textContent = specialist ? "Подати профіль спеціаліста" : "Створити акаунт клієнта";
+  submitButton.innerHTML = specialist ? "Подати профіль на перевірку <span>→</span>" : "Створити акаунт клієнта <span>→</span>";
+  roleButtons.forEach((button) => button.classList.toggle("role-button-active", button.dataset.role === role));
+  [...clientFields.querySelectorAll("input, select, textarea"), ...specialistFields.querySelectorAll("input, select, textarea")].forEach((field) => { field.required = field.closest("[hidden]") === null && field.name !== "portfolio" && field.name !== "location" && field.name !== "experience"; });
+}
+roleButtons.forEach((button) => button.addEventListener("click", () => setRegistrationRole(button.dataset.role)));
+const initialRole = new URLSearchParams(window.location.search).get("role");
+if (initialRole === "specialist") setRegistrationRole("specialist");
+registrationForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const data = new FormData(registrationForm);
+  const role = data.get("role");
+  const subject = encodeURIComponent(role === "specialist" ? "Реєстрація спеціаліста SoundCollab" : "Реєстрація клієнта SoundCollab");
+  const body = encodeURIComponent([...data.entries()].filter(([key]) => key !== "consent").map(([key, value]) => `${key}: ${value}`).join("\n"));
+  registrationMessage.textContent = "Заявку підготовлено — відкриваємо ваш поштовий клієнт.";
+  window.setTimeout(() => { window.location.href = `mailto:sound.collab.official@gmail.com?subject=${subject}&body=${body}`; }, 350);
+});
