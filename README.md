@@ -22,7 +22,7 @@ python3 -m http.server 8000
 # відкрити http://localhost:8000
 ```
 
-Вхідна сторінка — `index.html`, стилі — `styles.css`, інтерактивність — `script.js`. Для demo-запитів форми валідовують базові поля й відкривають `mailto:sound.collab.official@gmail.com`; сервер або секрети не потрібні. Телефон у HTML залишається demo placeholder до підтвердження.
+Вхідна сторінка — `index.html`, стилі — `styles.css`, інтерактивність — `script.js`. Для demo-запитів форми валідовують базові поля й відкривають `FormSubmit на sound.collab.official@gmail.com з mailto fallback`; сервер або секрети не потрібні. Телефон у HTML залишається demo placeholder до підтвердження.
 
 ## Що працює зараз
 
@@ -56,3 +56,10 @@ python3 -m http.server 8000
 ## Ліцензування
 
 У репозиторії немає сторонніх шрифтів, фото чи треків: візуальні картки — CSS-ілюстрації. Перед production треба замінити візуальні матеріали на контент із підтвердженими правами та додати `LICENSE`/terms для user-generated content.
+
+
+## Intake та запуск
+
+Контактна форма й реєстрація надсилають дані через FormSubmit на робочу пошту та мають mailto fallback. Першу заявку сервіс може попросити підтвердити в email. Перед масштабуванням замініть FormSubmit на власний backend із rate limiting, spam protection і storage policy.
+
+Публічні канали: Instagram `@sound.collab.official`, Threads `@sound.collab.official`. TikTok-посилання приймається у формі спеціаліста, але офіційний handle потрібно додати після його підтвердження.

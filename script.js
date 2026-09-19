@@ -84,8 +84,9 @@ registrationForm?.addEventListener("submit", (event) => {
   const role = data.get("role");
   const subject = encodeURIComponent(role === "specialist" ? "Реєстрація спеціаліста SoundCollab" : "Реєстрація клієнта SoundCollab");
   const body = encodeURIComponent([...data.entries()].filter(([key]) => key !== "consent").map(([key, value]) => `${key}: ${value}`).join("\n"));
-  registrationMessage.textContent = "Заявку підготовлено — відкриваємо ваш поштовий клієнт.";
-  window.setTimeout(() => { window.location.href = `mailto:sound.collab.official@gmail.com?subject=${subject}&body=${body}`; }, 350);
+  deliverForm(registrationForm, role === "specialist" ? "Реєстрація спеціаліста SoundCollab" : "Реєстрація клієнта SoundCollab", registrationMessage).then((sent) => {
+    if (!sent) window.location.href = `mailto:sound.collab.official@gmail.com?subject=${subject}&body=${body}`;
+  });
 });
 document.querySelectorAll("[data-order-action]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -99,3 +100,35 @@ document.querySelectorAll("[data-order-action]").forEach((button) => {
     else if (action === "comment") { message.textContent = "Коментар додано до замовлення."; }
   });
 });
+// FormSubmit delivery keeps intake working when a visitor has no configured mail app.
+const FORM_ENDPOINT = "https://formsubmit.co/sound.collab.official@gmail.com";
+async function deliverForm(form, subject, messageElement) {
+  const submit = form.querySelector("button[type='submit']");
+  if (submit) submit.disabled = true;
+  const data = new FormData(form);
+  data.append("_subject", subject);
+  data.append("_captcha", "false");
+  data.append("_template", "table");
+  try {
+    const response = await fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data });
+    if (!response.ok) throw new Error("Form delivery failed");
+    messageElement.textContent = "Заявку надіслано. Команда SoundCollab зв’яжеться з вами.";
+    form.reset();
+    return true;
+  } catch (error) {
+    messageElement.textContent = "Не вдалося надіслати автоматично. Відкриваємо резервний email.";
+    return false;
+  } finally { if (submit) submit.disabled = false; }
+}
+const contactForm = document.querySelector("#contact-form");
+if (contactForm) contactForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const message = document.querySelector("#contact-message");
+  const sent = await deliverForm(contactForm, "Нова заявка SoundCollab", message);
+  if (!sent) {
+    const data = new FormData(contactForm);
+    const body = encodeURIComponent([...data.entries()].map(([key, value]) => `${key}: ${value}`).join("\n"));
+    window.location.href = `mailto:sound.collab.official@gmail.com?subject=Нова заявка SoundCollab&body=${body}`;
+  }
+});
+document.querySelectorAll("[data-current-year]").forEach((node) => { node.textContent = String(new Date().getFullYear()); });
