@@ -87,3 +87,15 @@ registrationForm?.addEventListener("submit", (event) => {
   registrationMessage.textContent = "Заявку підготовлено — відкриваємо ваш поштовий клієнт.";
   window.setTimeout(() => { window.location.href = `mailto:sound.collab.official@gmail.com?subject=${subject}&body=${body}`; }, 350);
 });
+document.querySelectorAll("[data-order-action]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const message = document.querySelector("#order-message");
+    const status = document.querySelector("#order-status");
+    const selected = document.querySelector("#specialist-status")?.value;
+    const action = button.dataset.orderAction;
+    if (action === "update" && selected) { status.textContent = selected; message.textContent = "Статус замовлення оновлено для команди."; }
+    else if (action === "submit") { status.textContent = "На погодженні"; message.textContent = "Версію передано клієнту на погодження."; }
+    else if (action === "approve") { status.textContent = "Погоджено"; message.textContent = "Етап погоджено. Команда отримала оновлення."; }
+    else if (action === "comment") { message.textContent = "Коментар додано до замовлення."; }
+  });
+});
