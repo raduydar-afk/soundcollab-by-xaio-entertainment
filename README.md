@@ -8,8 +8,8 @@
 - `services.html` — каталог: songwriting, mixing, mastering, production, studio booking, equipment consulting.
 - `about.html` — про SoundCollab, підхід і Studio/Journal/Academy.
 - `portfolio.html` — demo-приклади робіт без непідтверджених сторонніх медіа.
-- `client.html` — UI-концепт кабінету замовника: orders, status, payment state, workspace, files.
-- `specialist.html` — UI-концепт кабінету виконавця: assigned orders, status update, payout terms.
+- `client.html` — кабінет замовника: orders, status, payment state, workspace, files.
+- `specialist.html` — кабінет виконавця: assigned orders, status update, payout terms.
 - `payments.html`, `rights.html`, `responsibility.html` — пояснення безпечної оплати, прав і відповідальності.
 - `faq.html`, `contact.html` — FAQ із власним запитанням, робочий email/телефон і order form fallback.
 
