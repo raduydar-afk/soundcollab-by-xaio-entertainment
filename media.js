@@ -1,0 +1,13 @@
+(() => {
+  const MAX_FILE_SIZE = 100 * 1024 * 1024;
+  const allowed = /^(image\/(jpeg|png|webp|gif)|video\/(mp4|quicktime|webm))$/i;
+  const formatSize = (bytes) => bytes > 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  document.querySelectorAll("[data-media-upload]").forEach((zone) => {
+    const input = zone.querySelector("[data-media-input]"); const list = zone.querySelector("[data-media-list]"); const message = zone.querySelector("[data-media-message]"); let files = [];
+    const render = () => { list.innerHTML = ""; files.forEach((file, index) => { const item = document.createElement("article"); item.className = "media-item"; const preview = document.createElement("div"); preview.className = "media-preview"; if (file.type.startsWith("image/")) { const img = document.createElement("img"); img.src = URL.createObjectURL(file); img.alt = file.name; preview.append(img); } else { const video = document.createElement("video"); video.src = URL.createObjectURL(file); video.muted = true; video.controls = true; preview.append(video); } const info = document.createElement("div"); info.className = "media-item-info"; info.innerHTML = `<span class="media-item-name"></span><span class="media-item-size">${formatSize(file.size)}</span>`; info.firstElementChild.textContent = file.name; const remove = document.createElement("button"); remove.className = "media-remove"; remove.type = "button"; remove.textContent = "×"; remove.setAttribute("aria-label", `Видалити ${file.name}`); remove.addEventListener("click", () => { files.splice(index, 1); render(); }); item.append(preview, info, remove); list.append(item); }); };
+    const add = (incoming) => { const rejected = []; [...incoming].forEach((file) => { if (!allowed.test(file.type) || file.size > MAX_FILE_SIZE) rejected.push(file.name); else if (!files.some((existing) => existing.name === file.name && existing.size === file.size)) files.push(file); }); render(); message.textContent = rejected.length ? `Не додано: ${rejected.join(", ")}. Дозволені фото/відео до 100 MB.` : files.length ? `${files.length} файл(ів) підготовлено для перегляду.` : ""; };
+    input.addEventListener("change", () => add(input.files));
+    ["dragenter", "dragover"].forEach((eventName) => zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.querySelector(".dropzone").classList.add("is-dragging"); }));
+    ["dragleave", "drop"].forEach((eventName) => zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.querySelector(".dropzone").classList.remove("is-dragging"); if (eventName === "drop") add(event.dataTransfer.files); }));
+  });
+})();
